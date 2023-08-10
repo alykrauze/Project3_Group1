@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 st.title('Fashion Trends Dashboard')
 st.markdown('This dashboard can be used to view fashion trends and product information from ssense')
@@ -30,7 +31,6 @@ mean_shirt_prices = [{'Blumarine':mean_blumarine_shirts},{'Diesel':mean_diesel_s
 
 
 
-
 #maxmin_mm6_df = pd.read_csv("../max_and_min_mm6.csv")
 max_blumarine_jeans = jeans_df['blumarine'].max()
 max_diesel_jeans = jeans_df['diesel'].max()
@@ -51,12 +51,50 @@ maxmin_shirts = [{'Blumarine Max Price':max_blumarine_shirts}, {'Blumarine Min P
 
 
 mm6_global_trends_df = pd.read_csv("../mm6_global_trends.csv")
-#st.bar_chart(mm6_global_trends_df)
+mm6_us_trends_df = pd.read_csv("../mm6_us_trends.csv")
+blumarine_global_trends_df = pd.read_csv("../blumarine_global_trends.csv")
+blumarine_us_trends_df = pd.read_csv("../blumarine_us_trends.csv")
+diesel_global_trends_df = pd.read_csv("../diesel_global_trends.csv")
+diesel_us_trends_df = pd.read_csv("../diesel_us_trends.csv")
 
+#designer_global_trends_df = pd.read_csv("../designer_global_trends_data.csv")
+
+# Plotly chart
+designers = ['Blumarine','Diesel','MM6']
+#fig = go.Figure(data_jeans = [
+    #go.Bar(name='Max Price',x=designers,y=[max_blumarine_jeans,max_diesel_jeans,max_mm6_jeans]),
+    #go.Bar(name='Min Price',x=designers,y = [min_blumarine_jeans,min_diesel_jeans,min_mm6_jeans])
+#])
+#fig.update_layout(barmode='group')
+#st.plotly_chart(fig,theme="streamlit",use_container_width=True)
+
+# Javascript Library
+#st.components.v1.html(""")
+
+
+st.text("Global Search Trends per Country - Last 12 months")
+
+if designer_option == 'Blumarine':
+    st.bar_chart(blumarine_global_trends_df, x='Country')
+    st.text("United States Search Trends per State - Last 12 months")
+    st.bar_chart(blumarine_us_trends_df, x='Region')
+elif designer_option== 'Diesel':
+    st.bar_chart(diesel_global_trends_df, x='Country')
+    st.text("United States Search Trends per State - Last 12 months")
+    st.bar_chart(diesel_us_trends_df, x='Region')
+elif designer_option == 'MM6':
+    st.bar_chart(mm6_global_trends_df, x='Country')
+    st.text("United States Search Trends per State - Last 12 months")
+    st.bar_chart(mm6_us_trends_df, x='Region')
+
+
+st.text("Product Price comparisons per Designer")
 
 if product_option == 'Jeans':
     st.bar_chart(mean_price_jeans)
     st.bar_chart(maxmin_jeans)
+
+
 
 elif product_option == 'Shirts':
     st.bar_chart(mean_shirt_prices)
